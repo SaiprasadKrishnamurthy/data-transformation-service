@@ -8,7 +8,7 @@ const Schema = Mongoose.Schema;
 // Schema definition for TransformationRule.
 const TransformationRuleSchema = new Schema({
     ruleName: String,
-    ruleDefinition: Schema.Types.Mixed
+    ruleDefinition: String
 });
 
 // Model definition.
@@ -17,7 +17,7 @@ const TransformationRule = Mongoose.model('transformationrules', TransformationR
 // Validation Rules for TransformationRule.
 const TransformationRuleValidationRules = Joi.object({
     ruleName: Joi.string().min(2).max(140).required(),
-    ruleDefinition: Joi.any().required()
+    ruleDefinition: Joi.string().required()
 }).label('TransformationRule');
 
 // Validation Rules for InputDocument.
