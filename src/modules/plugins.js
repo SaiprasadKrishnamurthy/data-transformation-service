@@ -9,9 +9,9 @@ const swaggerOptions = {
     schemes: ['http', 'https'],
     cors: true,
     info: {
-        title: 'StudentPodium ReferenceData API',
+        title: 'Data Transformation API',
         version: PackageJson.version,
-        description: 'REST APIs for the reference data of StudentPodium',
+        description: 'REST APIs for transforming & enriching the data',
         contact: {
             name: 'Sai Kris',
             email: 'saiprasad.k@studentpodium.com',
