@@ -12,6 +12,7 @@ stages:
   - build
   - test
   - package
+  - deploy
 
 cache:
   paths:
@@ -39,5 +40,20 @@ docker-build:
     - docker build -t registry.gitlab.com/kubernetesprojects/data-transformation-service .
     - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
     - docker push registry.gitlab.com/kubernetesprojects/data-transformation-service
+  only:
+    - master
+
+deploy-k8s:
+  image: dtzar/helm-kubectl
+  stage: deploy
+  before_script:
+    - apk add -u gettext
+    - kubectl create secret docker-registry regcred --docker-server=$CI_REGISTRY --docker-username="$CI_DEPLOY_USER" --docker-password="$CI_DEPLOY_PASSWORD" --docker-email="$GITLAB_USER_EMAIL" --dry-run=true -o yaml | kubectl apply -f -
+  environment:
+    name: test
+    url: test.yourapp.com
+  script:
+#    - kubectl delete -f k8s.yml
+    - kubectl apply -f k8s.yml
   only:
     - master
