@@ -1,0 +1,43 @@
+image: docker:latest
+# Use the OverlayFS driver for improved performance.
+variables:
+  DOCKER_DRIVER: overlay
+  K8S_NAMESPACE: $CI_PROJECT_PATH_SLUG-$CI_COMMIT_REF_SLUG
+
+services:
+  - docker:dind
+
+
+stages:
+  - build
+  - test
+  - package
+
+cache:
+  paths:
+    - node_modules/
+
+build:
+  image: node:latest
+  stage: build
+  script:
+    - npm install
+  artifacts:
+    paths:
+    - node_modules/
+
+test:
+  image: node:latest
+  stage: test
+  script: npm test
+  only:
+    - develop
+
+docker-build:
+  stage: package
+  script:
+    - docker build -t registry.gitlab.com/kubernetesprojects/data-transformation-service .
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.gitlab.com
+    - docker push registry.gitlab.com/kubernetesprojects/data-transformation-service
+  only:
+    - master
