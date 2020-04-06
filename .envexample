@@ -1,0 +1,5 @@
+PORT=7777
+MONGO_URL=mongodb://dev-persondb.uksouth.cloudapp.azure.com:27017/persondb
+MONGO_USER=identitymanager
+MONGO_PASSWORD=S1ta@123
+JWT_SECRET_KEY=MyS3cr3t

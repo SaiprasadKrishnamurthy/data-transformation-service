@@ -1,0 +1,43 @@
+{
+  "name": "data-transformation-service",
+  "version": "1.0.0",
+  "description": "Simple Rules based Data Transformation Service",
+  "config": {
+    "dockerImageNameSpace": "saiprasadkrishnamurthy",
+    "dockerImagePrefix": "data-transformation-service"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "deploy": "npm run lint && node app.js",
+    "lint": "node_modules/.bin/eslint --ext .js app.js src/",
+    "docker-build": "npm run lint && docker build -t $npm_package_config_dockerImageNameSpace/$npm_package_config_dockerImagePrefix . && node k8s.js"
+  },
+  "keywords": [],
+  "author": "Sai Kris",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/boom": "^9.1.0",
+    "@hapi/hapi": "^19.1.1",
+    "@hapi/inert": "^6.0.1",
+    "@hapi/joi": "^17.1.1",
+    "@hapi/vision": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "hapi-auth-jwt2": "github:salzhrani/hapi-auth-jwt2",
+    "hapi-cors": "^1.0.3",
+    "hapi-swagger": "^12.1.3",
+    "json-to-json-transformer": "^1.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7",
+    "nodemon": "^2.0.2",
+    "require-directory": "^2.1.1",
+    "vision": "^5.4.4"
+  },
+  "devDependencies": {
+    "@hapi/eslint-config-hapi": "^13.0.2",
+    "@hapi/eslint-plugin-hapi": "^4.3.5",
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.2"
+  }
+}

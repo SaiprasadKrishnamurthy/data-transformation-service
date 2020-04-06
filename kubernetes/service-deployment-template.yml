@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ${serviceName}
+  labels:
+    app: ${serviceName}
+spec:
+  type: NodePort
+  ports:
+  - port: ${port}
+    protocol: TCP
+    name: http
+  selector:
+    app: ${serviceName}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ${serviceName}
+spec:
+  selector:
+    matchLabels:
+      app: ${serviceName}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ${serviceName}
+    spec:
+      containers:
+      - name: ${serviceName}
+        image: ${fullyQualifiedDockerImageName}:${version}
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: ${configMapTemplateName}
+        ports:
+        - containerPort: ${port}
+      imagePullSecrets:
+      - name: docker-registry-credentials-secret
+
